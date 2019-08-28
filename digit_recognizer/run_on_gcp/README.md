@@ -1,5 +1,9 @@
 run-on-gcp version
 
+project structure
+
+<img src="recommended-project-structure.png">
+
 modifications
 
 (1) add REQUIRED_PACKAGE= ['GCSFS' ] in setup.py
