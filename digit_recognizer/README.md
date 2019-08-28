@@ -26,6 +26,8 @@ keywords: kaggle digit recognizer mnist tensorflow keras estimator cnn data augm
 
 (1) run-on-google-cloud-platform version is coming. althought this project is small enough to run on local machine, it's also a good practice to use it for gcp
 
+https://github.com/frh2020/kaggle/digit_recognizer/run_on_gcp
+
 (2) there is a better way to implement data augmentation by using iterator.
 
 (3) carefully upgrade codes to tf 2.0 
