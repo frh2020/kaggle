@@ -1,7 +1,7 @@
 # kaggle competition project: digit recognizer
 this is a kaggle competition practice.
 
-keywords: kaggle digit recognizer mnist tensorflow keras estimator cnn data augmentation tensorboard
+tags: kaggle, digit recognizer, mnist, tensorflow, keras, estimator, cnn, decay learning rate, data augmentation, tensorboard, google cloud, ml-engline, ai-platform, submit, train 
 
 ## 1. what matters
 
