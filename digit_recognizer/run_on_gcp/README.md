@@ -1,5 +1,9 @@
 run-on-gcp version
 
+gcp guide 
+
+https://cloud.google.com/ml-engine/docs/tensorflow/getting-started-training-prediction#tensorboard-local
+
 project structure
 
 <img src="recommended-project-structure.png">
