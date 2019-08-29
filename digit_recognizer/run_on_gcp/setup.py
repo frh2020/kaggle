@@ -6,7 +6,7 @@ REQUIRED_PACKAGES = [ 'gcsfs'
 ]
 
 setup(
-    name='kaggle-digit-cnn',
+    name='kaggle_digit_cnn',
     version='1',
     install_requires=REQUIRED_PACKAGES,
     packages=find_packages(),
