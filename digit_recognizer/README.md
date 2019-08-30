@@ -26,7 +26,7 @@ tags: kaggle, digit recognizer, mnist, tensorflow, keras, estimator, cnn, decay 
 
 (1) run-on-google-cloud-platform version is coming. althought this project is small enough to run on local machine, it's also a good practice to use it for gcp
 
-https://github.com/frh2020/kaggle/digit_recognizer/run_on_gcp
+https://github.com/frh2020/kaggle/tree/master/digit_recognizer/run_on_gcp
 
 (2) there is a better way to implement data augmentation by using iterator.
 
