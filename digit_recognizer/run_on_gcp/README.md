@@ -10,7 +10,7 @@ project structure
 
 <img src="recommended-project-structure.png">
 
-modifications
+modifications from local machine version:
 
 (1) add REQUIRED_PACKAGE= ['GCSFS' ] in setup.py
 
