@@ -1,0 +1,18 @@
+Different Views of TensorBoard 
+https://www.datacamp.com/community/tutorials/tensorboard-tutorial
+
+Scalars - Visualize scalar values, such as classification accuracy.
+
+Graph - Visualize the computational graph of your model, such as the neural network model.
+
+Distributions - Visualize how data changes over time, such as the weights of a neural network.
+
+Histograms - A fancier view of the distribution that shows distributions in a 3-dimensional perspective
+
+Projector - Can be used to visualize word embeddings (that is, word embeddings are numerical representations of words that capture their semantic relationships)
+
+Image - Visualizing image data
+
+Audio - Visualizing audio data
+
+Text - Visualizing text (string) data
