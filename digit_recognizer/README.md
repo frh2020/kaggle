@@ -22,12 +22,16 @@ tags: kaggle, digit recognizer, mnist, tensorflow, keras, estimator, cnn, decay 
 
 (3) estimator v3 is a completed version for local train, eval and predict. decay learning rate and data augmentation are implemented. TensorBoard is also activiated too monitor progress. the prediction results in similar kaggle score. acc=0.994
 
-## 3. next steps
-
-(1) run-on-google-cloud-platform version is coming. althought this project is small enough to run on local machine, it's also a good practice to use it for gcp
+(4) run-on-google-cloud-platform version is partially done. althought this project is small enough to run on local machine, it's also a good practice to use it for gcp
 
 https://github.com/frh2020/kaggle/tree/master/digit_recognizer/run_on_gcp
 
-(2) there is a better way to implement data augmentation by using iterator.
+## 3. next steps
+
+(1) batch prediction by feeding all test images to the deployed model on cloud
+
+(2) replace tf.contrib.layers by tf.train adam optimizer with decay lr. rearrange plots on tensorboard.
+
+(3) there is a better way to implement data augmentation by using iterator.
 
 (3) carefully upgrade codes to tf 2.0 
