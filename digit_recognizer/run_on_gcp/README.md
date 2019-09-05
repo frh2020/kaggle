@@ -1,4 +1,4 @@
-run-on-gcp version
+## run-on-gcp version
 
 tags: kaggle, digit recognizer, mnist, tensorflow, keras, estimator, cnn, decay learning rate, data augmentation, tensorboard, google cloud, ml-engline, ai-platform, submit, train, deploy, predict, online, batch
 
