@@ -52,57 +52,80 @@ def cnn_model(features, labels, mode, params):
     
     class_ids = tf.cast(x = tf.argmax(input = probabilities, axis = 1), dtype = tf.uint8)
 
-    if mode == tf.estimator.ModeKeys.TRAIN :
-        loss = tf.reduce_mean(input_tensor = tf.nn.softmax_cross_entropy_with_logits(logits = ylogits, labels = labels))
-               
+    global_step = tf.train.get_global_step()
+
+    learning_rate=tf.train.exponential_decay(
+                  params["learning_rate"],
+                  global_step,
+                  decay_steps=params["decay_steps"],
+                  decay_rate=0.95,
+                  staircase=True)
+    
+    if mode in (tf.estimator.ModeKeys.TRAIN, tf.estimator.ModeKeys.EVAL):
+        
         global_step = tf.train.get_global_step()
 
-        decay_steps = params["decay_steps"]
-        
-        learning_rate = params["learning_rate"]
-            
-        def _learning_rate_decay_fn(learning_rate, global_step):
-              return tf.train.exponential_decay(
-                  learning_rate,
+        learning_rate=tf.train.exponential_decay(
+                  params["learning_rate"],
                   global_step,
-                  decay_steps=decay_steps,
+                  decay_steps=params["decay_steps"],
                   decay_rate=0.95,
                   staircase=True)
         
-        train_op = tf.contrib.layers.optimize_loss(
-                loss = loss, 
-                global_step = global_step,
-                learning_rate =learning_rate, 
-                learning_rate_decay_fn=_learning_rate_decay_fn,
-                optimizer = "Adam")
-        eval_metric_ops = None
-    
-    if mode == tf.estimator.ModeKeys.EVAL:
         loss = tf.reduce_mean(input_tensor = tf.nn.softmax_cross_entropy_with_logits(logits = ylogits, labels = labels))
-        train_op = None
-        eval_metric_ops =  {"accuracy": tf.metrics.accuracy(labels = tf.argmax(input = labels, axis = 1), predictions = class_ids)}
+        
+        accuracy=tf.metrics.accuracy(labels = tf.argmax(input = labels, axis = 1), predictions = class_ids)
+        
+        if mode == tf.estimator.ModeKeys.TRAIN :
+        
+            optimizer=tf.train.AdamOptimizer(learning_rate)
+            
+            gradients = optimizer.compute_gradients(loss=loss)
+
+           # last_grad_norm=0;
+           # for g,v in gradients:
+           #     if 'last' in v.name :
+           #         last_grad_norm = tf.sqrt(tf.reduce_mean(g**2))
+           #     break
+            
+            train_op = optimizer.apply_gradients(gradients, global_step=global_step)
+               
+            eval_metric_ops = None
+    
+            with tf.name_scope('performance'):
+                tf.summary.scalar('loss', loss)
+                tf.summary.scalar('learning_rate', learning_rate)
+                tf.summary.scalar('accuracy', accuracy[1])
+
+                   
+        else:
+            
+            train_op = None
+            eval_metric_ops =  {"accuracy": accuracy}
     
     if mode == tf.estimator.ModeKeys.PREDICT:
         loss = None
         train_op = None
         eval_metric_ops = None
 
+    predictions = {"key": tf.identity(features['key']) , "probabilities": probabilities, "class_ids": class_ids}
+    
     return tf.estimator.EstimatorSpec(
         mode = mode,
-        predictions = {"probabilities": probabilities, "class_ids": class_ids},
+        predictions =predictions,
         loss = loss,
         train_op = train_op,
         eval_metric_ops = eval_metric_ops,
-        export_outputs = {"predictions": tf.estimator.export.PredictOutput({"probabilities": probabilities, "class_ids": class_ids})}
-    )
+        export_outputs = {"predictions": tf.estimator.export.PredictOutput(predictions)}
+   )
 
 def serving_input_fn():
 
-    feature_placeholders = {"image": tf.placeholder(dtype = tf.float32, shape = [None, HEIGHT, WIDTH])}
+    feature_placeholders = {"image": tf.placeholder(dtype = tf.float32, shape = [None, HEIGHT, WIDTH]),"key": tf.placeholder(dtype = tf.int32, shape=[None,])}
 
-    features = {"image": tf.expand_dims(input = feature_placeholders["image"], axis = -1)} 
+    features = {"image": tf.expand_dims(input = feature_placeholders["image"], axis = -1),"key": feature_placeholders["key"]} 
     return tf.estimator.export.ServingInputReceiver(features =  features, receiver_tensors =  feature_placeholders)
-
+  
 def Input_data(input_dir):
 	train = pd.read_csv(input_dir+'/train.csv')
     
@@ -123,6 +146,10 @@ def train_and_evaluate(output_dir, input_dir, hparams):
     
 	X_train, X_val, Y_train, Y_val = train_test_split(train_images, train_labels, test_size = 0.1)
     
+	key_val=np.arange(len(Y_val)).reshape([-1,1])
+
+	key_train=np.arange(len(Y_train)).reshape([-1,1])
+    
 	datagen = ImageDataGenerator(
         rotation_range=10,  
         zoom_range = 0.10,  
@@ -139,7 +166,7 @@ def train_and_evaluate(output_dir, input_dir, hparams):
         params = hparams)
 
 	eval_input_fn = tf.estimator.inputs.numpy_input_fn(
-	    x = {'image': X_val},
+	    x = {'image': X_val, 'key': key_val},
 	    y = Y_val,
 	    batch_size = hparams['batch_size'],
 	    num_epochs = 1,
@@ -153,7 +180,7 @@ def train_and_evaluate(output_dir, input_dir, hparams):
         
               
 		train_input_fn = tf.estimator.inputs.numpy_input_fn(
-            x = {'image':X_train_da},
+            x = {'image':X_train_da, 'key': key_train},
             y = Y_train_da,
             batch_size = hparams['batch_size'],
             num_epochs = 1,
