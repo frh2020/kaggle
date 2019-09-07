@@ -146,9 +146,9 @@ def train_and_evaluate(output_dir, input_dir, hparams):
     
 	X_train, X_val, Y_train, Y_val = train_test_split(train_images, train_labels, test_size = 0.1)
     
-	key_val=np.arange(len(Y_val)).reshape([-1,1])
+	key_val=np.arange(len(Y_val)).reshape([-1,])
 
-	key_train=np.arange(len(Y_train)).reshape([-1,1])
+	key_train=np.arange(len(Y_train)).reshape([-1,])
     
 	datagen = ImageDataGenerator(
         rotation_range=10,  
