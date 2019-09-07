@@ -16,22 +16,16 @@ tags: kaggle, digit recognizer, mnist, tensorflow, keras, estimator, cnn, decay 
 ## 2. notes for versions
 
 
-(1) keras v1 model is a working cnn model with data augmentation that gives acc 0.99 ish. 
+(1) keras v1 model is a working cnn model with data augmentation that gives acc 0.99-ish. 
 
-(2) keras V2 model implements ensemble learning method. This increases kaggle score from 0.99457 to 0.99628, ranking from top 22% to top 11%
+(2) keras v2 model implements ensemble learning method. This increases kaggle score from 0.99457 to 0.99628, ranking from top 22% to top 11%.
 
-(3) estimator v3 is a completed version for local train, eval and predict. decay learning rate and data augmentation are implemented. TensorBoard is also activiated too monitor progress. the prediction results in similar kaggle score. acc=0.994
+(3) estimator v5 is a completed version for local train, eval and predict. decay learning rate and data augmentation are implemented without tf.contrib.layers which is deprecated in tf2.0. a key is added to input format. TensorBoard is also activiated too monitor progress. the prediction results in similar kaggle score. acc=0.994
 
-(4) run-on-google-cloud-platform version is partially done. althought this project is small enough to run on local machine, it's also a good practice to use it for gcp
+(4) run-on-google-cloud-platform package is built from estimator v5. althought this project is small enough to run on local machine, it's also a good practice to use it for gcp. online prediction and batch prediction are both tested out on the deployed model. it generated prediction with similar kaggle score as the local versions.
 
 https://github.com/frh2020/kaggle/blob/master/digit_recognizer/run_on_gcp/README.md
 
 ## 3. next steps
 
-(1) batch prediction by feeding all test images to the deployed model on cloud
-
-(2) replace tf.contrib.layers by tf.train adam optimizer with decay lr. rearrange plots on tensorboard.
-
-(3) there is a better way to implement data augmentation by using iterator.
-
-(3) carefully upgrade codes to tf 2.0 
+(1) carefully upgrade codes to tf 2.0 
