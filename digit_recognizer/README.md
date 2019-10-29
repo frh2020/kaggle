@@ -26,6 +26,5 @@ tags: kaggle, digit recognizer, mnist, tensorflow, keras, estimator, cnn, decay 
 
 https://github.com/frh2020/kaggle/blob/master/digit_recognizer/run_on_gcp/README.md
 
-## 3. next steps
+(5) keras v1 codes are converted to tf 2.0. kaggle-digit-cnn-keras-tf2-v1.ipynb
 
-(1) carefully upgrade codes to tf 2.0 
