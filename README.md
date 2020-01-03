@@ -1,4 +1,4 @@
-## kaggle competition projects:
+### Kaggle competition projects:
 
 -titanic: classification
 
@@ -6,6 +6,6 @@
 
  
 
-## project using kaggle data:
+### Projects using kaggle data:
 
 -blood cell: image, multi-class, classification
