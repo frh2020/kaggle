@@ -1,6 +1,9 @@
 kaggle competition projects
+
 -titanic: classification
--digit recognizer: multi-class
+
+-digit recognizer: image, multi-class, classcification
 
 project using kaggle data
--blood cell: multi-class
+
+-blood cell: image, multi-class, classification
